@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://b551e249-ad87-421f-9766-a670657e1672-00-1ejapfz0mob00.worf.replit.dev/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ISE • Institute of Semantic Explorers</title>
+<meta name="theme-color" content="#071827">
+<link rel="icon" href="./ISE • Institute of Semantic Explorers_files/ise-logo.png" type="image/png">
+<style>
+  :root{
+    --bg1:#071827; --bg2:#0e2a3a; --card:rgba(255,255,255,0.03);
+    --muted:#9fc2d6; --text:#eaf6fb; --line:rgba(255,255,255,0.06);
+    --accent:#1ab0c7; --accent2:#29d5ee; --radius:14px;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg1:#f7fbff; --bg2:#e6f2fb; --card:#ffffff; --muted:#556677; --text:#071827; --line:rgba(7,24,39,0.06) }
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%; margin:0; font-family:Inter,Segoe UI,Roboto,system-ui,-apple-system,Arial; -webkit-font-smoothing:antialiased}
+  body{
+    background: radial-gradient(800px 400px at 10% 10%, rgba(41,100,140,0.12), transparent),
+                linear-gradient(180deg,var(--bg1),var(--bg2));
+    color:var(--text);
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:28px 18px;display:flex;flex-direction:column;gap:22px}
+
+  header{display:flex;align-items:center;justify-content:center;gap:18px}
+  .brand{display:flex;gap:14px;align-items:center}
+  .logo{width:84px;height:84px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);display:flex;align-items:center;justify-content:center}
+  .brand h1{font-size:1.35rem;margin:0}
+  .top-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .btn{appearance:none;border:1px solid var(--line);background:var(--card);color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:600}
+  .btn.primary{background:linear-gradient(180deg,var(--accent),var(--accent2));color:#02161a;box-shadow:0 8px 28px rgba(26,176,199,0.12)}
+  .pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);font-weight:700;color:var(--muted)}
+
+  .hero{background:linear-gradient(160deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--line);border-radius:20px;padding:28px;text-align:center}
+  .hero h2{font-size:2rem;margin:8px 0}
+  .hero p{margin:0;color:var(--muted)}
+
+  .best-card{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;padding:18px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border:1px solid var(--line)}
+  .best-left{min-width:260px}
+  .best-title{font-size:0.95rem;color:var(--muted);margin-bottom:6px}
+  .best-name{font-weight:800;font-size:1.25rem}
+  .best-who{font-weight:700;color:var(--muted)}
+
+  .controls-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .search-row{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+  input[type="text"],textarea,select{padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);width:100%;outline:none}
+  textarea{min-height:120px;resize:vertical}
+
+  .archive{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:6px}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.015),transparent);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:0 10px 30px rgba(2,8,16,0.45)}
+  .card h4{margin:0 0 6px}
+  .meta{color:var(--muted);font-size:0.92rem;margin-bottom:8px}
+  .pre{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas; background:rgba(0,0,0,0.06);padding:10px;border-radius:8px;color:var(--text);margin-bottom:10px}
+  .thumb{width:100%;height:auto;border-radius:8px;display:block;margin-bottom:10px;border:1px solid var(--line)}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+
+  .modal-backdrop{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,0.6);z-index:50}
+  .modal{width:min(900px,96vw);background:linear-gradient(180deg,#071827,#0b2433);border-radius:12px;padding:0;border:1px solid var(--line);box-shadow:0 40px 120px rgba(2,8,16,.6)}
+  .modal .head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .modal .body{padding:16px;display:grid;gap:10px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .small{font-size:0.9rem;color:var(--muted)}
+  footer{text-align:center;color:var(--muted);padding:18px 0;margin-top:14px}
+
+  @media(max-width:720px){ .row{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <header>
+      <div class="brand">
+        <!-- ISE Original Logo -->
+        <div class="logo" aria-hidden="true">
+          <img src="./ISE • Institute of Semantic Explorers_files/ise-logo.png" alt="ISE - Institute of Semantic Explorers" width="84" height="84" style="border-radius:50%;object-fit:cover;border:2px solid var(--line);">
+        </div>
+
+        <div>
+          <h1>ISE • Institute of Semantic Explorers</h1>
+          <div class="top-controls" style="margin-top:8px">
+            <button class="btn" id="officialBtn">Official Club</button>
+            <button class="btn" id="themeBtn">Toggle Theme</button>
+            <button class="btn" id="exportBtn">Export JSON</button>
+            <label class="btn" for="importFile" style="cursor:pointer">Import JSON</label>
+            <input id="importFile" type="file" accept="application/json" style="display:none">
+            <button class="btn primary" id="adminBtn">Logout</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" role="banner">
+      <h2>Weekly Performances · Highlights · Best Talent</h2>
+      <p class="small">Center stage for scripts, videos and the weekly best performer. Only admins can change content; everyone can view and download.</p>
+    </section>
+
+    <!-- BEST OF THE WEEK (front & center) -->
+    <section aria-labelledby="best-heading">
+      <div class="best-card" role="region" aria-labelledby="best-heading">
+        <div class="best-left">
+          <div class="best-title" id="best-heading">🏆 THIS WEEK'S BEST</div>
+          <div class="best-name" id="bestTitle">— Not set —</div>
+          <div class="best-who" id="bestWho">—</div>
+        </div>
+        <div>
+          <div style="color:var(--muted);font-size:0.95rem;margin-bottom:6px">Admin tools</div>
+          <div id="inlineAdminControls" style="display: block;">
+            <button class="btn" id="editBestBtn">Edit Best</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEEKLY SCRIPT (front) -->
+    <section>
+      <div style="max-width:900px;margin:0 auto" class="card">
+        <div style="padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <h3 style="margin:0">This Week's Script</h3>
+              <div class="small">The script to be used for this week's performance (visible to all).</div>
+            </div>
+            <div id="scriptAdminControls" style="display: block;">
+              <button class="btn" id="editScriptBtn">Edit Script</button>
+            </div>
+          </div>
+
+          <div style="margin-top:12px" id="weeklyScriptDisplay" class="pre">No script set yet. (Admin can add/edit.)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHIVE + SEARCH + SORT -->
+    <section>
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+        <div style="flex:1">
+          <input id="search" type="text" placeholder="Search title, performer, or script...">
+        </div>
+        <div style="width:160px">
+          <select id="sort">
+            <option value="new">Newest first</option>
+            <option value="old">Oldest first</option>
+            <option value="az">A → Z</option>
+            <option value="za">Z → A</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="archive" class="archive" aria-live="polite"></div>
+      <div id="emptyNotice" style="text-align: center; color: var(--muted); margin-top: 18px; display: block;">No performances yet. Admin can add.</div>
+
+      <div style="text-align:center;margin-top:12px">
+        <button class="btn primary" id="openAddBtn" style="display: block;">➕ Add Performance</button>
+      </div>
+    </section>
+
+    <footer>
+      <div>Emergency contact: <strong>8074346272</strong> • © <span id="year">2025</span> ISE — Institute of Semantic Explorers</div>
+    </footer>
+  </div>
+
+  <!-- ADMIN MODAL -->
+  <div class="modal-backdrop" id="modal" aria-hidden="true" role="dialog" style="display:none">
+    <div class="modal" role="document">
+      <div class="head">
+        <div id="modalTitle" style="font-weight:800;color:var(--muted)">Admin</div>
+        <div><button class="btn" id="closeModal">Close</button></div>
+      </div>
+      <div class="body">
+        <!-- Best form -->
+        <div id="bestForm" style="display:none">
+          <label class="small">Best performance title</label>
+          <input id="bestTitleInput" type="text" placeholder="e.g., Dance Finals — Theme: Unity">
+          <label class="small">Performer(s)</label>
+          <input id="bestWhoInput" type="text" placeholder="e.g., Team A — Rahul &amp; Priya">
+          <div style="text-align:right"><button class="btn primary" id="saveBestBtn">Save Best</button></div>
+        </div>
+
+        <!-- Script form -->
+        <div id="scriptForm" style="display:none">
+          <label class="small">This week's script</label>
+          <textarea id="weeklyScriptInput" placeholder="Paste the script here..."></textarea>
+          <div style="text-align:right"><button class="btn primary" id="saveScriptBtn">Save Script</button></div>
+        </div>
+
+        <!-- Add/Edit performance form -->
+        <div id="perfForm" style="display:none">
+          <div class="row">
+            <input id="titleInput" type="text" placeholder="Performance title">
+            <input id="whoInput" type="text" placeholder="Performer(s)">
+          </div>
+          <label class="small">Script / Notes</label>
+          <textarea id="scriptInput" placeholder="Script / notes..."></textarea>
+          <div class="row">
+            <input id="videoInput" type="text" placeholder="YouTube link (optional)">
+            <input id="fileInput" type="file" accept=".txt,.pdf,.doc,.docx,.png,.jpg,.jpeg">
+          </div>
+          <div style="text-align:right;display:flex;gap:8px;justify-content:flex-end">
+            <button class="btn" id="clearBtn">Clear</button>
+            <button class="btn primary" id="savePerfBtn">Save Performance</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* ========== App data and helpers ========== */
+const LS_KEY = 'ise.perf.v1';
+const BEST_KEY = 'ise.best.v1';
+const SCRIPT_KEY = 'ise.script.v1';
+const ADMIN_SESSION_KEY = 'ise.admin.session';
+const ADMIN_PASSWORD = 'ISE-PRO-2025'; // change if needed
+
+let state = { items: [], best: {}, script: '', admin: !!localStorage.getItem(ADMIN_SESSION_KEY), editingId: null };
+
+// Utility selectors
+const $ = s => document.querySelector(s);
+const uid = () => Math.random().toString(36).slice(2,9);
+const nowISO = () => new Date().toISOString();
+
+async function loadData(){
+  try {
+    const response = await fetch('/api/data');
+    if (response.ok) {
+      const data = await response.json();
+      state.items = data.items || [];
+      state.best = data.best || {};
+      state.script = data.script || '';
+      return data;
+    }
+  } catch (error) {
+    console.error('Failed to load data:', error);
+  }
+  // Fallback to localStorage if server fails
+  state.items = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+  state.best = JSON.parse(localStorage.getItem(BEST_KEY) || '{}');
+  state.script = localStorage.getItem(SCRIPT_KEY) || '';
+  return { items: state.items, best: state.best, script: state.script };
+}
+
+async function saveData(){
+  const data = {
+    items: state.items,
+    best: state.best,
+    script: state.script
+  };
+  
+  try {
+    const response = await fetch('/api/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    
+    if (response.ok) {
+      renderAll();
+      return;
+    }
+  } catch (error) {
+    console.error('Failed to save data:', error);
+  }
+  
+  // Fallback to localStorage if server fails
+  localStorage.setItem(LS_KEY, JSON.stringify(state.items));
+  localStorage.setItem(BEST_KEY, JSON.stringify(state.best));
+  localStorage.setItem(SCRIPT_KEY, state.script);
+  renderAll();
+}
+
+function loadItems(){ return state.items; }
+function saveItems(){ saveData(); }
+
+function loadBest(){ return state.best; }
+function saveBest(obj){ state.best = obj; saveData(); }
+
+function loadScript(){ return state.script; }
+function saveScript(s){ state.script = s; saveData(); }
+
+// Escape for HTML output
+function esc(s){ return (s||'').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ========== Render functions ========== */
+function renderBest(){
+  const best = loadBest();
+  $('#bestTitle').textContent = best.title || '— Not set —';
+  $('#bestWho').textContent = best.who || '—';
+}
+
+function renderScript(){
+  const script = loadScript();
+  $('#weeklyScriptDisplay').textContent = script || 'No script set yet. (Admin can add/edit.)';
+}
+
+function renderArchive(){
+  const archiveEl = $('#archive');
+  const emptyEl = $('#emptyNotice');
+  
+  let items = [...state.items];
+  
+  // Filter
+  const query = $('#search').value.toLowerCase();
+  if(query) {
+    items = items.filter(item => 
+      (item.title||'').toLowerCase().includes(query) ||
+      (item.who||'').toLowerCase().includes(query) ||
+      (item.script||'').toLowerCase().includes(query)
+    );
+  }
+  
+  // Sort
+  const sort = $('#sort').value;
+  items.sort((a,b) => {
+    switch(sort){
+      case 'old': return new Date(a.created) - new Date(b.created);
+      case 'az': return (a.title||'').localeCompare(b.title||'');
+      case 'za': return (b.title||'').localeCompare(a.title||'');
+      default: return new Date(b.created) - new Date(a.created); // new
+    }
+  });
+  
+  if(items.length === 0){
+    archiveEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    return;
+  }
+  
+  emptyEl.style.display = 'none';
+  archiveEl.innerHTML = items.map(item => {
+    const date = new Date(item.created).toLocaleDateString();
+    const videoEmbed = item.video && item.video.includes('youtube') ? getYouTubeEmbed(item.video) : '';
+    const fileDisplay = item.fileName ? `<div class="small">📎 ${esc(item.fileName)}</div>` : '';
+    
+    return `
+      <div class="card">
+        <h4>${esc(item.title)}</h4>
+        <div class="meta">By ${esc(item.who)} • ${date}</div>
+        ${item.script ? `<div class="pre">${esc(item.script)}</div>` : ''}
+        ${videoEmbed}
+        ${fileDisplay}
+        <div class="actions">
+          ${state.admin ? `
+            <button class="btn" onclick="editPerf('${item.id}')">Edit</button>
+            <button class="btn" onclick="deletePerf('${item.id}')" style="color:#ff6b6b">Delete</button>
+          ` : ''}
+          ${item.fileData ? `<button class="btn" onclick="downloadFile('${item.id}')">Download</button>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getYouTubeEmbed(url){
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
+  if(!match) return '';
+  return `<iframe class="thumb" src="https://www.youtube.com/embed/${match[1]}" frameborder="0" allowfullscreen></iframe>`;
+}
+
+function renderAdminUI(){
+  const adminControls = ['#inlineAdminControls', '#scriptAdminControls', '#openAddBtn'];
+  adminControls.forEach(sel => {
+    const el = $(sel);
+    if(el) el.style.display = state.admin ? 'block' : 'none';
+  });
+}
+
+function renderAll(){
+  renderBest();
+  renderScript();
+  renderArchive();
+  renderAdminUI();
+}
+
+/* ========== Admin auth ========== */
+function checkAdmin(){
+  if(state.admin) return true;
+  
+  const pass = prompt('Admin password:');
+  if(pass === ADMIN_PASSWORD){
+    state.admin = true;
+    localStorage.setItem(ADMIN_SESSION_KEY, '1');
+    renderAdminUI();
+    return true;
+  }
+  
+  alert('Wrong password');
+  return false;
+}
+
+function logout(){
+  state.admin = false;
+  localStorage.removeItem(ADMIN_SESSION_KEY);
+  renderAdminUI();
+  closeModal();
+}
+
+/* ========== Modal management ========== */
+function openModal(type, data = {}){
+  if(type !== 'admin' && !checkAdmin()) return;
+  
+  // Hide all forms
+  ['#bestForm', '#scriptForm', '#perfForm'].forEach(sel => $(sel).style.display = 'none');
+  
+  switch(type){
+    case 'admin':
+      if(!checkAdmin()) return;
+      $('#modalTitle').textContent = 'Admin Dashboard';
+      break;
+      
+    case 'best':
+      $('#modalTitle').textContent = 'Edit Best Performance';
+      $('#bestForm').style.display = 'block';
+      const best = loadBest();
+      $('#bestTitleInput').value = best.title || '';
+      $('#bestWhoInput').value = best.who || '';
+      break;
+      
+    case 'script':
+      $('#modalTitle').textContent = 'Edit Weekly Script';
+      $('#scriptForm').style.display = 'block';
+      $('#weeklyScriptInput').value = loadScript();
+      break;
+      
+    case 'perf':
+      $('#modalTitle').textContent = data.id ? 'Edit Performance' : 'Add Performance';
+      $('#perfForm').style.display = 'block';
+      state.editingId = data.id || null;
+      
+      if(data.id){
+        const item = state.items.find(i => i.id === data.id);
+        if(item){
+          $('#titleInput').value = item.title || '';
+          $('#whoInput').value = item.who || '';
+          $('#scriptInput').value = item.script || '';
+          $('#videoInput').value = item.video || '';
+        }
+      } else {
+        clearPerfForm();
+      }
+      break;
+  }
+  
+  $('#modal').style.display = 'grid';
+  $('#modal').setAttribute('aria-hidden', 'false');
+}
+
+function closeModal(){
+  $('#modal').style.display = 'none';
+  $('#modal').setAttribute('aria-hidden', 'true');
+  state.editingId = null;
+}
+
+function clearPerfForm(){
+  ['#titleInput', '#whoInput', '#scriptInput', '#videoInput'].forEach(sel => $(sel).value = '');
+  $('#fileInput').value = '';
+}
+
+/* ========== CRUD operations ========== */
+function saveBestPerformance(){
+  const title = $('#bestTitleInput').value.trim();
+  const who = $('#bestWhoInput').value.trim();
+  saveBest({title, who});
+  closeModal();
+}
+
+function saveWeeklyScript(){
+  const script = $('#weeklyScriptInput').value.trim();
+  saveScript(script);
+  closeModal();
+}
+
+function savePerf(){
+  const title = $('#titleInput').value.trim();
+  const who = $('#whoInput').value.trim();
+  const script = $('#scriptInput').value.trim();
+  const video = $('#videoInput').value.trim();
+  const fileInput = $('#fileInput');
+  
+  if(!title || !who){
+    alert('Title and performer are required');
+    return;
+  }
+  
+  const item = {
+    id: state.editingId || uid(),
+    title, who, script, video,
+    created: state.editingId ? state.items.find(i => i.id === state.editingId)?.created || nowISO() : nowISO(),
+    updated: nowISO()
+  };
+  
+  // Handle file upload
+  if(fileInput.files[0]){
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      item.fileData = e.target.result;
+      item.fileName = file.name;
+      item.fileType = file.type;
+      saveItemToState(item);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    // Keep existing file data if editing
+    if(state.editingId){
+      const existing = state.items.find(i => i.id === state.editingId);
+      if(existing){
+        item.fileData = existing.fileData;
+        item.fileName = existing.fileName;
+        item.fileType = existing.fileType;
+      }
+    }
+    saveItemToState(item);
+  }
+}
+
+function saveItemToState(item){
+  if(state.editingId){
+    const index = state.items.findIndex(i => i.id === state.editingId);
+    if(index !== -1) state.items[index] = item;
+  } else {
+    state.items.push(item);
+  }
+  
+  saveItems();
+  closeModal();
+}
+
+function editPerf(id){
+  const item = state.items.find(i => i.id === id);
+  if(item) openModal('perf', item);
+}
+
+function deletePerf(id){
+  if(!confirm('Delete this performance?')) return;
+  state.items = state.items.filter(i => i.id !== id);
+  saveItems();
+}
+
+function downloadFile(id){
+  const item = state.items.find(i => i.id === id);
+  if(!item || !item.fileData) return;
+  
+  const link = document.createElement('a');
+  link.href = item.fileData;
+  link.download = item.fileName || 'file';
+  link.click();
+}
+
+/* ========== Import/Export ========== */
+function exportData(){
+  const data = {
+    performances: state.items,
+    best: loadBest(),
+    script: loadScript(),
+    exported: nowISO()
+  };
+  
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `ise-backup-${new Date().toISOString().split('T')[0]}.json`;
+  link.click();
+}
+
+function importData(file){
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      
+      if(data.performances) {
+        state.items = data.performances;
+        saveItems();
+      }
+      if(data.best) saveBest(data.best);
+      if(data.script) saveScript(data.script);
+      
+      alert('Data imported successfully!');
+      renderAll();
+    } catch(err) {
+      alert('Invalid JSON file');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ========== Theme toggle ========== */
+function showRestrictionsModal(restrictions) {
+  $('#modalTitle').textContent = restrictions.title;
+  
+  // Hide all forms
+  ['#bestForm', '#scriptForm', '#perfForm'].forEach(sel => $(sel).style.display = 'none');
+  
+  // Create restrictions content
+  const restrictionsHtml = `
+    <div id="restrictionsContent">
+      <div style="margin-bottom: 16px;">
+        <h4 style="color: var(--accent); margin: 0 0 12px 0;">Club Rules & Guidelines</h4>
+        <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+          ${restrictions.rules.map(rule => `<li style="margin-bottom: 8px;">${rule}</li>`).join('')}
+        </ul>
+      </div>
+      <div style="padding: 12px; background: rgba(26,176,199,0.05); border-radius: 8px; border: 1px solid rgba(26,176,199,0.2);">
+        <strong>Emergency Contact:</strong> ${restrictions.contact}
+      </div>
+      <div style="text-align: center; margin-top: 16px; color: var(--muted); font-size: 0.9rem;">
+        Last updated: ${restrictions.updated}
+      </div>
+    </div>
+  `;
+  
+  $('#modal .body').innerHTML = restrictionsHtml;
+  $('#modal').style.display = 'grid';
+  $('#modal').setAttribute('aria-hidden', 'false');
+}
+
+function showDefaultRestrictions() {
+  alert('ISE - Institute of Semantic Explorers\n\nOfficial Club Guidelines:\n• Only registered members can participate\n• Submit performances 48 hours in advance\n• Original content or proper credits required\n• 15-minute maximum duration\n• Emergency contact: 8074346272');
+}
+
+function toggleTheme(){
+  const root = document.documentElement;
+  const isLight = getComputedStyle(root).getPropertyValue('--bg1').trim() === '#f7fbff';
+  
+  if(isLight){
+    // Switch to dark
+    root.style.setProperty('--bg1', '#071827');
+    root.style.setProperty('--bg2', '#0e2a3a');
+    root.style.setProperty('--card', 'rgba(255,255,255,0.03)');
+    root.style.setProperty('--muted', '#9fc2d6');
+    root.style.setProperty('--text', '#eaf6fb');
+    root.style.setProperty('--line', 'rgba(255,255,255,0.06)');
+  } else {
+    // Switch to light
+    root.style.setProperty('--bg1', '#f7fbff');
+    root.style.setProperty('--bg2', '#e6f2fb');
+    root.style.setProperty('--card', '#ffffff');
+    root.style.setProperty('--muted', '#556677');
+    root.style.setProperty('--text', '#071827');
+    root.style.setProperty('--line', 'rgba(7,24,39,0.06)');
+  }
+}
+
+/* ========== Event listeners ========== */
+document.addEventListener('DOMContentLoaded', async () => {
+  // Set current year
+  $('#year').textContent = new Date().getFullYear();
+  
+  // Load data from server
+  await loadData();
+  
+  // Initial render
+  renderAll();
+  
+  // Admin button
+  $('#adminBtn').onclick = () => openModal('admin');
+  
+  // Modal controls
+  $('#closeModal').onclick = closeModal;
+  $('#modal').onclick = e => { if(e.target === $('#modal')) closeModal(); };
+  
+  // Best performance
+  $('#editBestBtn').onclick = () => openModal('best');
+  $('#saveBestBtn').onclick = saveBestPerformance;
+  
+  // Weekly script
+  $('#editScriptBtn').onclick = () => openModal('script');
+  $('#saveScriptBtn').onclick = saveWeeklyScript;
+  
+  // Performance management
+  $('#openAddBtn').onclick = () => openModal('perf');
+  $('#savePerfBtn').onclick = savePerf;
+  $('#clearBtn').onclick = clearPerfForm;
+  
+  // Search and sort
+  $('#search').oninput = renderArchive;
+  $('#sort').onchange = renderArchive;
+  
+  // Theme toggle
+  $('#themeBtn').onclick = toggleTheme;
+  
+  // Official Club button
+  $('#officialBtn').onclick = async () => {
+    try {
+      const response = await fetch('/api/restrictions');
+      if (response.ok) {
+        const restrictions = await response.json();
+        showRestrictionsModal(restrictions);
+      } else {
+        showDefaultRestrictions();
+      }
+    } catch (error) {
+      showDefaultRestrictions();
+    }
+  };
+  
+  // Import/Export
+  $('#exportBtn').onclick = exportData;
+  $('#importFile').onchange = e => {
+    if(e.target.files[0]) importData(e.target.files[0]);
+    e.target.value = ''; // Reset file input
+  };
+  
+  // Logout on admin button if already admin
+  $('#adminBtn').onclick = () => {
+    if(state.admin) {
+      if(confirm('Logout from admin?')) logout();
+    } else {
+      openModal('admin');
+    }
+  };
+  
+  // Update admin button text
+  const updateAdminBtn = () => {
+    $('#adminBtn').textContent = state.admin ? 'Logout' : 'Admin';
+  };
+  updateAdminBtn();
+  
+  // Update admin button on state change
+  const originalCheckAdmin = checkAdmin;
+  checkAdmin = function(){
+    const result = originalCheckAdmin();
+    updateAdminBtn();
+    return result;
+  };
+  
+  const originalLogout = logout;
+  logout = function(){
+    originalLogout();
+    updateAdminBtn();
+  };
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && $('#modal').style.display === 'grid') {
+    closeModal();
+  }
+});
+</script>
+
+
+</body></html>
